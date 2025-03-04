@@ -1,0 +1,67 @@
+.calendar
+  user-select: none
+  margin-top: 40px
+  
+.calendar-container
+  display: none
+
+  /* Скрываем календарь по умолчанию
+  position: absolute
+  background-color: white
+  border: 1px solid #ccc
+  padding: 10px
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)
+
+.calendar-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 10px
+
+#calendarTable
+  border-collapse: collapse
+  width: 100%
+
+  th, td
+    border: 1px solid #ccc
+    padding: 5px
+    text-align: center
+
+  th
+    background-color: #f0f0f0
+
+.calendar-day
+  cursor: pointer
+  text-align: center
+  display: flex
+  justify-content: center
+
+.calendar-day span
+  display: flex
+  justify-content: center
+  align-items: center
+
+.today span
+  background-color: #6b6b6b
+  color: #fff
+
+
+.selected span
+  background-color: #f0f0f0
+  color: #000000
+  
+@mixin calendar-button
+  padding: 0.25rem
+  background-color: rgb(100, 116, 139) // bg-slate-500
+  font-size: 0.675rem // text-sm
+  border-radius: 0.25rem // rounded
+  transition: background-color 0.2s // transition-colors
+
+  &:hover
+    background-color: rgb(71, 85, 105) // hover:bg-slate-600
+
+.calendar-button
+  @include calendar-button
+
+
+

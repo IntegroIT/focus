@@ -1,0 +1,49 @@
+.note 
+  position: absolute
+  padding: 14vh 0 9rem
+  left: 0
+  right: 0
+  top: 0
+  z-index: 50
+  // background-color: #050534
+  transition: all 0.1s ease-in-out
+  height: 100%
+  overflow-y: auto
+  overflow-x: hidden
+
+.noteValues 
+  display: flex
+  flex-direction: row
+  gap: 1rem
+  width: 100%
+  margin-top: 1.5rem
+  justify-content: space-between
+  align-items: end
+  border-bottom: 1px dotted #595875
+  cursor: pointer
+  div:first-child
+    display: flex
+    flex-direction: row
+    gap: 0.5rem
+
+
+.noteBackground
+  transition: height 0.1s ease-in-out
+
+.note__comments
+  transition: opacity 0.1s ease-in-out
+
+.parent:not(:last-child)::after 
+  content: "<"
+  margin-left: 5px
+
+.parent:hover
+    opacity: .8
+
+.parentsbread
+  overflow-x: scroll
+  scrollbar-width: none // Для Firefox
+  -ms-overflow-style: none // Для IE и Edge
+
+  &::-webkit-scrollbar
+    display: none // Для Chrome, Safari и Opera    
