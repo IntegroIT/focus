@@ -221,11 +221,6 @@
   transition: opacity 0.1s ease-in-out;
 }
 
-.parent:not(:last-child)::after {
-  content: "<";
-  margin-left: 5px;
-}
-
 .parent:hover {
   opacity: 0.8;
 }

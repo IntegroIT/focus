@@ -10,9 +10,10 @@ const Tag = ({ tag, isChoised }: { tag: string; isChoised: boolean }) => {
     // setIsClicked(!isClicked);
     // appState.setRefreshTags();
     appState.tags[tag as keyof typeof appState.tags] = !isChoised;
-    const tags = appState.isNoteVisible
-      ? appState.mainTask.tags || []
-      : appState.taskData.tags || [];
+    const tags =
+      appState.isNoteVisible && !appState.isNewTask
+        ? appState.mainTask.tags || []
+        : appState.taskData.tags || [];
     if (!tags.includes(tag)) {
       tags.push(tag);
     } else {
@@ -20,9 +21,10 @@ const Tag = ({ tag, isChoised }: { tag: string; isChoised: boolean }) => {
       tags.splice(index, 1);
     }
 
-    if (appState.isNoteVisible)
+    if (appState.isNoteVisible && !appState.isNewTask) {
       appState.updateTaskValue(appState.mainTask.id, "tags", tags);
-    else appState.setTaskData("tags", tags);
+      console.log("main task");
+    } else appState.setTaskData("tags", tags);
     // appState.setTaskData("tags", tag);
   };
 

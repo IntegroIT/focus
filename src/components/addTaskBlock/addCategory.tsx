@@ -28,7 +28,7 @@ const AddCategory = observer(() => {
     (inputRef.current as HTMLInputElement).value = name;
     setColor(color);
     appState.setTaskData("color", color);
-    if (appState.isNoteVisible) {
+    if (appState.isNoteVisible && !appState.isNewTask) {
       appState.updateTaskValue(appState.mainTask.id, "color", color);
       appState.taskData = {};
     }

@@ -44,7 +44,9 @@ class AppState {
   taskModalContent = "";
   isEmodjiAnimate = "";
   isListening = false;
+  isNewTask = false; // Опредеим, это новая задача, или редактируем старую
   draggedBlockId: string | null = null;
+  bottomPosition: number = 0;
   taskModalContntentToName = {
     // TODO добавить ключи. См.
     emodji: "Добавьте эмоцию в задачу",
@@ -295,12 +297,60 @@ class AppState {
 
   // Установимить фокус на нужное поле ввода
   setFocusOnInput() {
-    let div = document.getElementById("addTaskInput") as HTMLInputElement;
+    if (
+      "virtualKeyboard" in navigator &&
+      typeof (navigator as any).virtualKeyboard === "object" &&
+      "overlaysContent" in (navigator as any).virtualKeyboard
+    ) {
+      (navigator as any).virtualKeyboard.overlaysContent = true;
+
+      (navigator as any).virtualKeyboard.addEventListener(
+        "geometrychange",
+        (event: any) => {
+          const { height } = event.target.boundingRect;
+          setTimeout(() => {
+            this.bottomPosition = height;
+            // alert("Высота клавиатуры:" + height);
+          }, 0); // Задержка 300 мс
+          // alert(`Высота клавиатуры: ${height}px`);
+        }
+      );
+    }
+
+    const inputElement = document.getElementById(
+      "addTaskInput"
+    ) as HTMLInputElement;
     setTimeout(() => {
-      if (div) div.focus();
-      console.log(div);
+      if (inputElement) inputElement.focus();
     }, 0);
   }
+
+  setIsNewTask = (isIt: boolean) => {
+    this.isNewTask = isIt;
+  };
+
+  setBottomPosition = () => {
+    const innerHeight = window.innerHeight;
+    const visualViewport = window.visualViewport?.height;
+    if (visualViewport && innerHeight - visualViewport > 100)
+      return innerHeight - visualViewport;
+    else return 0;
+  };
+
+  getKeyboardHeight = (): number => {
+    // Проверяем, что устройство мобильное (проверка userAgent)
+    const isMobile: boolean = /Android|iPhone|iPad/i.test(navigator.userAgent);
+    if (!isMobile) return 0;
+
+    // Используем только visualViewport для расчета
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+
+    // Рассчитываем высоту клавиатуры на основе разницы между screen.height и видимой областью
+    const keyboardHeight = window.screen.height - viewportHeight;
+
+    // Возвращаем корректную высоту, если разница значительная (> 50px)
+    return keyboardHeight > 50 ? keyboardHeight : 0;
+  };
 
   // clearRefreshTags() {
   //   this.refreshTags = false;

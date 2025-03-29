@@ -28,11 +28,15 @@ a:hover {
 
 body {
   margin: 0;
+  /* position: absolute;
+  top: 0; */
+  /* padding-top: 4rem; */
   /* display: flex; */
   place-items: center;
-  min-width: 320px;
+  min-width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
+  /* border: 5px solid red; */
 }
 
 h1 {

@@ -6,7 +6,8 @@ import List from "@mui/icons-material/MenuOpen";
 import DateStart from "@mui/icons-material/InsertInvitationRounded";
 // import Time from "@mui/icons-material/ScheduleRounded";
 import Notifications from "@mui/icons-material/NotificationsRounded";
-import Tags from "@mui/icons-material/LocalOfferRounded";
+// import Tags from "@mui/icons-material/LocalOfferRounded";
+import Tags from "@mui/icons-material/LabelRounded";
 // import Tag from "../components/addTaskBlock/tag.tsx";
 import ListTasks from "../components/homeScreen/ListsTasks.tsx";
 import ArrowBack from "@mui/icons-material/ArrowBackIosNewTwoTone";
@@ -17,7 +18,10 @@ import DateComponent from "./homeScreen/date.tsx";
 import LoopRoundedIcon from "@mui/icons-material/LoopRounded";
 import AddReaction from "@mui/icons-material/AddReactionTwoTone";
 import EditNote from "@mui/icons-material/EditNoteRounded";
-import EditableText from "./EditableText.tsx";
+// import Tasks from "./homeScreen/Tasks.tsx";
+// import OpenInFull from "@mui/icons-material/OpenInFullRounded";
+// import EditableText from "./EditableText.tsx";
+// import UnfoldMore from "@mui/icons-material/UnfoldMoreRounded";
 const taskMap = appState.taskMap;
 
 // import ImageGenerator from "./homeScreen/ImageGenerator.tsx";
@@ -233,7 +237,7 @@ const Note: any = observer(() => {
       <div className="note__content relative z-10 bg-slate-900 rounded-t-2xl pt-4">
         <div className="p-4">
           {getParentTitles(task.id).length > 0 && (
-            <div className="parents mb-2 items-center flex flex-row gap-2">
+            <div className="parents mb-2 flex flex-row gap-2">
               <List fontSize="small" />
               <div
                 ref={containerRef}
@@ -289,8 +293,18 @@ const Note: any = observer(() => {
             </div>
           </div>
           {task.description && (
-            <div className="mt-2">
+            <div
+              className="mt-4 flex items-end gap-2 cursor-pointer"
+              onClick={() => {
+                appState.showTaskModal("editNote");
+                // alert("innerHeight: " + window.innerHeight);
+                // alert(
+                //   "visualViewport.height: " + window?.visualViewport?.height
+                // );
+              }}
+            >
               <EditNote /> {task.description}
+              {/* <OpenInFull fontSize="small" /> */}
             </div>
           )}
 
@@ -301,6 +315,7 @@ const Note: any = observer(() => {
             <div className="flex flex-row gap-1">
               <div
                 style={{
+                  // console.log("🚀 ~ constNote:any=observer ~ editNote:", editNote)
                   borderColor:
                     task.color == "transparent" ? "gray" : task.color,
                 }}
@@ -314,7 +329,7 @@ const Note: any = observer(() => {
           </div>
           <div
             className="noteValues"
-            onClick={() => appState.showTaskModal("categories")}
+            onClick={() => appState.showTaskModal("calendar")}
           >
             <div>
               <DateStart />
@@ -372,8 +387,12 @@ const Note: any = observer(() => {
           parentId={task.id}
           className="listTasks"
         />
+        {/* <Tasks
+          tasks={getDescendants(appState.taskArray, task.id)}
+          filteredRulles={{ parentId: `${task.id}` }}
+          /> */}
       </div>
-      <EditableText initialText={task.description} />
+      {/* <EditableText initialText={task.description} /> */}
       {/* <Note /> */}
       {isNoteVisible && <Comments />}
       {/* <ImageGenerator /> */}
@@ -394,6 +413,7 @@ const Comments = () => {
   return (
     <div style={positionComments} className="comments fixed z-20 bg-slate-900">
       <input
+        autoComplete="off"
         type="text"
         className="note__comments w-full border-b-[1px] p-2 rounded-md focus:outline-none focus:border-b-2 focus:border-blue-500"
         placeholder="Комментарий к задаче..."
@@ -408,9 +428,10 @@ const Parent: any = ({ title, task }: { title: string; task: object }) => {
   return (
     <div
       onClick={() => appState.setMainTask(task)}
-      className="parent cursor-pointer flex flex-row text-sm"
+      className="parent cursor-pointer flex flex-row text-sm items-center gap-1"
     >
       <div className="truncate max-w-[150px]">{title}</div>
+      <ArrowBack sx={{ fontSize: "0.6rem" }} />
     </div>
   );
 };

@@ -4,7 +4,9 @@ import appState from "../../../store/Appstate.ts";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import OfflineBoltTwoToneIcon from "@mui/icons-material/OfflineBoltTwoTone";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
-import Tags from "@mui/icons-material/LocalOfferRounded";
+// import Tags from "@mui/icons-material/LocalOfferRounded";
+// import Tags from "@mui/icons-material/LabelImportantOutlined";
+import Tags from "@mui/icons-material/LabelOutlined";
 import List from "@mui/icons-material/FormatListBulletedRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import LoopRoundedIcon from "@mui/icons-material/LoopRounded";
@@ -14,6 +16,7 @@ import AddReactionTwoToneIcon from "@mui/icons-material/AddReactionTwoTone";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
 import Mic from "@mui/icons-material/MicNoneRounded";
 import { yellow } from "@mui/material/colors";
+// import { useKeyboardHeight } from "../useKeyboardHeight";
 // import SpeechRecognitionComponent from "../../components/spech.tsx"; // Импортируем компонент записи
 
 const AddTask = () => {
@@ -22,6 +25,8 @@ const AddTask = () => {
   const [isFast, setIsFast] = useState(appState.taskData.isFast);
   const [isSetData, setIsSetData] = useState(false);
   const [textareaHeight, setTextareaHeight] = useState(24);
+  // const keyboardHeight = useKeyboardHeight();
+
   // const [isListening, setIsListening] = useState(false); // Состояние записи
   // const [transcript, setTranscript] = useState(""); // Текст из распознавания речи
 
@@ -57,12 +62,14 @@ const AddTask = () => {
   };
 
   const handleClick = () => {
+    setIsFast(false);
     let value = (inputRef.current as HTMLTextAreaElement).value;
     if (value == "") {
       return;
     }
     appState.setTaskData("title", value);
     appState.setTaskData("id", String(Date.now()));
+    appState.setTaskData("type", "task");
     appState.addTask();
     appState.taskData = {};
     appState.refreshTags();
@@ -96,6 +103,7 @@ const AddTask = () => {
           setIsFast(false);
           setIsSetData(false);
           appState.setFocusOnInput();
+          appState.setIsNewTask(false);
         }}
         style={fonStyle}
         className="fon fixed top-0 left-0 right-0 bottom-0 w-full h-full"
@@ -103,7 +111,7 @@ const AddTask = () => {
       <div
         style={
           appState.isAddTaskModalVisible
-            ? { display: "block" }
+            ? { display: "block", bottom: appState.bottomPosition + "px" }
             : { display: "none" }
         }
         className="addDataTask fixed bottom-0 w-full left-0 z-50"
@@ -180,7 +188,10 @@ const AddTask = () => {
           </div>
           <div className="flex gap-3">
             <OfflineBoltTwoToneIcon
-              onClick={handleFast}
+              onClick={() => {
+                handleFast();
+                appState.setFocusOnInput();
+              }}
               style={{ color: isFast ? yellow[500] : "" }}
             />
             {inputValue != "" || isSetData ? (

@@ -8,6 +8,11 @@ import ExpandClose from "@mui/icons-material/KeyboardArrowUpRounded";
 import Play from "@mui/icons-material/PlayCircleFilledRounded";
 import Done from "@mui/icons-material/DoneRounded";
 import List from "@mui/icons-material/FormatListBulletedRounded";
+// import Idea from "@mui/icons-material/BatchPredictionRounded";
+// import Idea from "@mui/icons-material/TipsAndUpdatesRounded";
+// import Idea from "@mui/icons-material/LightbulbRounded";
+import Idea from "@mui/icons-material/LightbulbOutlined";
+// import Idea from "@mui/icons-material/OnlinePredictionRounded";
 import DraggableBlock from "./DraggableBlock.tsx";
 import {
   yellow,
@@ -110,17 +115,21 @@ const Task = observer((prop: any) => {
     >
       <div className="mainTask w-full flex flex-col">
         <div className="flex items-center">
-          <div
-            className="inputCheckbox cursor-pointer flex justify-center items-center min-w-[23px] h-[23px] w-[23px] rounded-md mr-4 border-slate-400 border-[2px]"
-            // style={{ borderLeft: handleColor(task.color)[900] }}
-            id={task.id}
-            onClick={() => handleToggleComplete(task.id)}
-          >
-            {task.isCompleted && <Done fontSize="small" />}
-            {!task.isCompleted && task.emodji && (
-              <span className="emodji text-[10px]">{task.emodji}</span>
-            )}
-          </div>
+          {task.type == "Идея" ? (
+            <Idea className="mr-4" />
+          ) : (
+            <div
+              className="inputCheckbox cursor-pointer flex justify-center items-center min-w-[23px] h-[23px] w-[23px] rounded-md mr-4 border-slate-400 border-[2px]"
+              // style={{ borderLeft: handleColor(task.color)[900] }}
+              id={task.id}
+              onClick={() => handleToggleComplete(task.id)}
+            >
+              {task.isCompleted && <Done fontSize="small" />}
+              {!task.isCompleted && task.emodji && (
+                <span className="emodji text-[10px]">{task.emodji}</span>
+              )}
+            </div>
+          )}
           <label
             onClick={() => {
               console.log(task);
@@ -141,12 +150,15 @@ const Task = observer((prop: any) => {
               {!task.children && task.isFast && (
                 <Bolt fontSize="small" sx={{ color: yellow[500] }} />
               )}
-              {!task.isFast && !task.children && (
-                <Play
-                  fontSize="medium"
-                  style={{ color: handleColor(task.color)[500] }}
-                />
-              )}
+              {!task.isFast &&
+                (!task.children || task.children?.length == 0) &&
+                !task.isCompleted && (
+                  <Play
+                    fontSize="medium"
+                    className="cursor-pointer"
+                    style={{ color: handleColor(task.color)[500] }}
+                  />
+                )}
               {task.children && task.children.length > 0 && !isExpanded && (
                 <div
                   // style={{ backgroundColor: handleColor(task.color)[100] }}
@@ -176,7 +188,7 @@ const Task = observer((prop: any) => {
         <div className="secRow flex items-center pb-1">
           <div className="w-[20px] mr-4 flex justify-center"></div>
           <span className="list__name text-[0.7rem] w-10/12 flex flex-row items-center">
-            {!isChildren && (
+            {!isChildren && !appState.isNoteVisible && (
               <>
                 <List sx={{ fontSize: 13 }} />
                 {taskParentTitle(task.parent)}

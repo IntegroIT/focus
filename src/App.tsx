@@ -6,6 +6,8 @@ import Menu from "./components/menu";
 import Note from "./components/Note";
 import appState from "../store/Appstate";
 import PlusTask from "./components/homeScreen/PlusTask";
+import { useEffect } from "react";
+import { handleResize, cleanupResizeListeners } from "./utils";
 // import KandinskyImageGenerator from "./components/homeScreen/Kand";
 // import AdaptiveHeight from "./components/AdaptiveHeight";
 // import Calendar Component from "./components/calendar2";
@@ -16,6 +18,17 @@ import PlusTask from "./components/homeScreen/PlusTask";
 import "./App.css";
 
 const App: any = observer(() => {
+  useEffect(() => {
+    // Подписка при монтировании
+    handleResize(); // Первый вызов
+    window.addEventListener("resize", handleResize);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", handleResize);
+    }
+
+    // Отписка при размонтировании
+    return cleanupResizeListeners;
+  }, []);
   appState.updateTaskMap(); // TODO настроить обновление карты задач, а точее сделать ее инициализацию на старте с помощью setTasks
   // const [count, setCount] = useState(0)
   // const [isOpen, setIsOpen] = useState(false);

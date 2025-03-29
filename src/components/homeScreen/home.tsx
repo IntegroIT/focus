@@ -24,7 +24,7 @@ const Home = observer(() => {
   return (
     <div className="Home">
       <Header />
-      {!appState.isNoteVisible && <Tasks tasks={tasks} />}
+      {!appState.isNoteVisible && <Tasks tasks={tasks} filteredRulle={null} />}
       {!appState.isNoteVisible && (
         <FiltredTasks tasks={completed} detailsName="Выполнено" />
       )}

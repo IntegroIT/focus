@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, IconButton } from "@mui/material";
+import { changeBottom } from "../utils";
 import {
   FormatBold,
   FormatItalic,
@@ -74,6 +75,10 @@ const EditableText: React.FC<EditableTextProps> = ({ initialText = "" }) => {
   const handleInput = () => {
     saveCursorPosition();
     setText(editorRef.current?.innerText || "");
+    // setTimeout(() => {
+    //   alert("innerHeight: " + window.innerHeight);
+    //   alert("visualViewport.height: " + window?.visualViewport?.height);
+    // }, 1500);
   };
 
   // Восстанавливаем курсор после обновления состояния
@@ -196,12 +201,13 @@ const EditableText: React.FC<EditableTextProps> = ({ initialText = "" }) => {
   };
 
   return (
-    <div className="p-4 border rounded-md w-full max-w-lg bg-gray-800">
+    <div className="w-full max-w-lg">
       {/* Режим просмотра */}
       {!isEditing && (
         <div
-          className="p-2 border rounded-md text-white"
+          className="p-2 overflow-x-hidden rounded-md text-white"
           dangerouslySetInnerHTML={{ __html: html }}
+          style={{ minHeight: "60vh", maxHeight: "80vh" }}
         />
       )}
 
@@ -211,16 +217,19 @@ const EditableText: React.FC<EditableTextProps> = ({ initialText = "" }) => {
           ref={editorRef}
           contentEditable
           suppressContentEditableWarning
-          className="p-2 border rounded-md focus:outline-none text-white whitespace-pre-wrap"
+          className="p-2 overflow-x-hidden rounded-md focus:outline-none text-white whitespace-pre-wrap"
           onInput={handleInput}
-          style={{ minHeight: "100px" }}
+          style={{ minHeight: "60vh", maxHeight: "80vh" }}
         >
           {text}
         </div>
       )}
 
       {/* Кнопки */}
-      <div className="flex gap-2 mt-2">
+      <div
+        className="flex gap-2 mt-2 fixed left-0 right-0 bg-gray-800"
+        style={{ bottom: changeBottom() }}
+      >
         <IconButton
           onClick={() => toggleMarkdownFormat("**")}
           size="small"

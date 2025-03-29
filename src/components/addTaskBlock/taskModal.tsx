@@ -12,11 +12,12 @@ import Note from "../../components/Note";
 import Clear from "./addClear.tsx";
 import Alert from "../notification.tsx";
 import AddParent from "./addParent.tsx";
+import EditableText from "../../components/EditableText.tsx";
 
 import SpeechToText from "../record.tsx";
 
 const TaskModal = observer(() => {
-  console.log("isTaskModalVisible", appState.isTaskModalVisible);
+  // console.log("isTaskModalVisible", appState.isTaskModalVisible);
   let isTaskModalVisible = appState.isTaskModalVisible;
   const taskModalName = appState.taskModalName;
   const taskModalContent = appState.taskModalContent;
@@ -41,6 +42,7 @@ const TaskModal = observer(() => {
 
   const isNote = {
     height: taskModalContent == "note" ? "100%" : "auto",
+    bottom: appState.bottomPosition,
   };
 
   return (
@@ -79,6 +81,9 @@ const TaskModal = observer(() => {
         {taskModalContent == "lists" && <AddParent />}
         {taskModalContent == "microphone" && <SpeechToText />}
         {taskModalContent == "note" && <Note />}
+        {taskModalContent == "editNote" && (
+          <EditableText initialText={appState.mainTask.description} />
+        )}
       </div>
     </>
   );

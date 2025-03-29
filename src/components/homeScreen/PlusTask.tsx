@@ -6,6 +6,9 @@ export default function PlusTask() {
     // appState.setClicked(); // Изменяем состояние при клике
     appState.toggleAddTaskModal();
     appState.setFocusOnInput();
+    appState.setIsNewTask(true);
+    appState.refreshTags();
+    // appState.setMainTask({});
     // alert(window.innerWidth);
   };
 

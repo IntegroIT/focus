@@ -10,7 +10,7 @@ const AddTags: any = observer(() => {
 
   useEffect(() => {
     appState.refreshTags();
-    if (appState.isNoteVisible) {
+    if (appState.isNoteVisible && !appState.isNewTask) {
       const mainTaskTags = appState.mainTask.tags || [];
       mainTaskTags.forEach((tag: String) => {
         tagsObj[tag as keyof typeof tagsObj] = true;

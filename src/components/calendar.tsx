@@ -224,8 +224,8 @@ const Calendar: React.FC<CalendarProps> = ({
               opacity: 0,
             }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: animationDirection === "left" ? -100 : 100, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            // exit={{ x: animationDirection === "left" ? -100 : 100, opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
             className="calendar-grid grid grid-cols-7 gap-1 w-full"
           >
             {getCalendarDays().map((day, index) => {
